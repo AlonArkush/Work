@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <!-- saved src url=(0014)about:internet -->
+  <meta charset="utf-8">
+  <title>סכום מספרים</title>
+
+<style>
+body{
+	font-size:30px;
+}
+
+</style>
+  
+  
+<script>
+function run() 
+{
+    x = document.getElementById("yosi").value 
+    x = parseInt(x)
+
+    y = document.getElementById("moshe").value 
+    y = parseInt(y)
+    
+    document.getElementById("sofi").value = x + y;
+}
+</script>
+
+</head>
+<body dir="rtl">
+
+
+  
+  <input id="yosi" type="text" size="20" value=""  maxlength="40" style="font-size:30px">
+  <br>
+  <input id="moshe" type="text" size="20" value=""  maxlength="40" style="font-size:30px">
+  <br>
+  
+
+  <input type="button" value="הפעל" onclick="run()" style="width:80px ; heigth:50px">
+  
+  <input id="sofi" type="text" size="20" value=""  maxlength="40" style="font-size:30px">
+  <br>
+
+</body>
+</html>

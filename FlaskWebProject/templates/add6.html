@@ -1,0 +1,49 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>Flask_Chat_App</title>
+    
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+      socket.on( 'connect', function() {
+        socket.emit( 'my event', {
+          info: 'User Connected'
+        } )
+        var form = $( 'form' ).on( 'submit', function( e ) {
+                                  e.preventDefault()
+                                  val1 = $( '#yosi' ).val()
+                                  val2 = $( '#moshe' ).val()
+                                  socket.emit( 'my event', {
+                                    val1 : val1,
+                                    val2 : val2
+                                  } )         
+                                } )
+      } )
+      socket.on( 'my response', function( msg ) {
+            console.log( "11111", msg )    
+            $( '#sofi' ).val(msg["val3"])
+      })
+      
+    </script>
+
+  </head>
+  <body>
+
+
+   
+<form action="" method="post"> 
+  <input id="yosi" name="yosi" type="text" size="20" value="{{ nmb1 }}"  maxlength="40" style="font-size:30px">
+  <br>
+  <input id="moshe" name="moshe" type="text" size="20" value="{{ nmb2 }}"  maxlength="40" style="font-size:30px">
+  <br>
+  <input type="submit" id="luci" value="הפעל" style="width:80px ; heigth:50px">
+  <input id="sofi" name="sofi" type="text" size="20" value="{{ result }}"  maxlength="40" style="font-size:30px">
+  <br>
+</form>
+   
+  </body>
+  </html>
