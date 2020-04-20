@@ -7,31 +7,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     
-	<script type="text/javascript">
-      const names = ["Hope", "Launa", "Katherine", "Walker", "Moses", "Tayna", "Rosia", "Yahaira", "Tommy", "Elwanda", "Clorinda", "Sheron", "Kayla", "Clementina", "Rene", "Rex", "Kathy", "Latoya", "Shirleen", "Shoshana"];
-	  
-	  var socket = io.connect('http://' + document.domain + ':' + location.port);
+    <script type="text/javascript">
+    
+      
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
 
       
-      socket.on( 'connect', function() {
+        socket.on( 'connect', function() {
         socket.emit( 'my event', {info: 'User Connected'} )
-        $("input").keypress(function(){
-            $( '#alon' ).val("Hello")
+        $("input").keyup(function(){
             val1 = $( '#yosi' ).val()
-            console.log(val1)
+            console.log('222', val1)
             socket.emit('keypress', { val1 : val1 })     
 
-		})
-		}) 
+        })
+        })
+        
         
        
-		socket.on( 'keypress_response', function( msg ) {
-            console.log( "11111", msg )   
-            $( '#sofi' ).val(msg["val3"])
-			if($( '#sofi' ).val() == "Hello"){
-				$( '#sofi' ).val("End")
-			}
-		})
+        socket.on( 'keypress_response', function( msg ) {
+            console.log( "11111", msg )  
+            xx = msg["val4"]
+            if(xx == "red"){
+                console.log( "xxx", msg )
+                $("#yosi").css("color", "red");
+            }
+			if(xx == "black"){
+				console.log( "xxx", msg )
+				$("#yosi").css("color", "black");
+            }
+            //$( '#sofi' ).val(msg["val3"])
+            //if($( '#sofi' ).val() == "Hello"){
+            //  $( '#sofi' ).val("End")
+        })
       
     </script>
 
@@ -47,9 +55,11 @@ style="font-size:30px">
   <input id="yosi" name="yosi" type="text" size="20" value="{{ nmb1 }}"  maxlength="40" 
 style="font-size:30px">
   <br>
+  <!--
   <input id="sofi" name="sofi" type="text" size="20" value="{{ result }}"  maxlength="40" 
 style="font-size:30px">
   <br>
+  -->
 </form>
    
   </body>
