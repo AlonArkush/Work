@@ -61,19 +61,20 @@ def data_entry():
 
 
 def takelast(elem):
-    return elem[-1]
+    return elem[-2]
 
 @app.route('/')
 def index():
     print("1212")
     table = get_table()
-    print(table)
+    #print(table)
     #recentscores
-    recent_scores1 = table[-10:]
+    print(table)
+    recent_scores1 = table[-4:]
     #topscores
     top_scores1 = sorted(table, key=takelast)
-    top_scores2 = top_scores1[:10]
-
+    top_scores2 = top_scores1[-4:]
+    print(top_scores2)
     
     return render_template(
         'index.html',
