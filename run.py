@@ -4,7 +4,7 @@ This script runs the FlaskWebProject application using a development server.
 """
 
 from os import environ
-from FlaskWebProject import app,socketio
+from FlaskWebProject import app, socketio
 
 
 if __name__ == '__main__':
