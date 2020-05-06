@@ -8,7 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     
     <script type="text/javascript">
-
+    
+    
+    
     var totalSeconds = 0;
 
     function setTime() {
@@ -26,6 +28,17 @@
         }
         else {
             return valString;
+        }
+    }
+    
+    function colorback(){
+        var today = new Date();
+        var time = today.getHours();
+        if(time > 8 && time < 18){
+            document.body.style.background = "#828cfa";
+        }
+        else{
+            document.body.style.background = "#1c0938";
         }
     }
     
@@ -57,6 +70,7 @@
         var fiveSeconds = 5,
         display = document.querySelector('#time');
         startTimer(fiveSeconds, display);
+        colorback();
     };
       
       var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -110,16 +124,16 @@
   </head>
   <body>
    
-  <div>the game starts in <span id="time">5</span> seconds!</div>
-  <label id="minutes">00</label>:<label id="seconds">00</label>
+  <div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
+  <label style="color:#77d6bf;" id="minutes">00</label ><label style="color:#77d6bf;">:</label><label style="color:#77d6bf;" id="seconds">00</label>
   <br>
   <textarea id="alon" rows="4" cols="50" style="font-size:20px">{{ theText }}</textarea>
   <br>
   <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}" disabled="disabled" maxlength="40"
 style="font-size:20px">
-  <label id="wpm">00</label>
+  <label style="color:#77d6bf;" id="wpm">00</label>
   <br>
   <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
-  <button onclick="sendData()" type="button">Send Score</button> 
+  <button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button> 
   </body>
   </html>
