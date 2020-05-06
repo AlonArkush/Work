@@ -82,7 +82,7 @@ def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
 @socketio.on('my event') 
-def handle_my_custom_event(data, methods=['GET', 'POST']): #connect the client (add7) to the views
+def handle_my_custom_event(data, methods=['GET', 'POST']): #connect the client (play) to the views
     print("888",data)
     if "val1" in data :
         global val1
@@ -95,7 +95,7 @@ def handle_my_custom_event(data, methods=['GET', 'POST']): #connect the client (
 
 
 @socketio.on('send score')
-def add_to_table(data, methods=['GET', 'POST']): #adds score from add7 to the DB scores
+def add_to_table(data, methods=['GET', 'POST']): #adds score from play to the DB scores
     print(data)
     name = data["username"]
     wpm = data["wpm"]
@@ -112,9 +112,9 @@ def add_to_table(data, methods=['GET', 'POST']): #adds score from add7 to the DB
 
 
 
-@app.route('/add7', methods=[ 'GET'])
-def add7(): #open the page add7
-    print("add7")
+@app.route('/play', methods=[ 'GET'])
+def play(): #open the page play
+    print("play")
     s = get_sentences()
     print (s)
     global the_sentence
@@ -123,7 +123,7 @@ def add7(): #open the page add7
     i = 0
     end = 0
     return render_template(
-        'add7.html',
+        'play.html',
         title='Home Page',
         theText = the_sentence,
         year=datetime.now().year,    
