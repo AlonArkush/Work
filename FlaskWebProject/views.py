@@ -15,13 +15,8 @@ val1 = ""
 i = 0
 flag = 0
 end = 0
-def count_down(number):
-    if number is 0:
-        return True
-    time.sleep(1)
-    return count_down(number-1)
 
-def get_sentences():
+def get_sentences(): #function to get the sentences from the DB
     conn = sqlite3.connect('example.db')
     print ("Opened Database succesfully")
     cursor = conn.execute('SELECT * from sentences')
@@ -30,7 +25,7 @@ def get_sentences():
     conn.close()
     return row 
     
-def get_table():
+def get_table(): #function to get the table scores to display the highest and recent scores
     conn = sqlite3.connect('example.db')
     print ("Opened Database successfully")
     cursor = conn.execute('SELECT * from scores')
@@ -38,10 +33,10 @@ def get_table():
     conn.close()
     return allscores
 
-def create_table():
+def create_table(): #a function that was used to create the DB
     c.execute('CREATE TABLE IF NOT EXISTS sentences(number, sentence)')
 
-def data_entry():
+def data_entry(): #a function that used to input the sentences to the DB
     c.execute('INSERT INTO sentences VALUES(1, "He put heat on the wound to see what would grow.")')
     c.execute('INSERT INTO sentences VALUES(2, "He found the end of the rainbow and was surprised at what he found there.")')
     c.execute('INSERT INTO sentences VALUES(3, "Be careful with that butter knife.")')
@@ -60,14 +55,13 @@ def data_entry():
 #data_entry()
 
 
-def takelast(elem):
+def takelast(elem): #function the take the last of an element, in my case a list
     return elem[-2]
 
 @app.route('/')
-def index():
+def index(): #function that supposedly opens the first page 127.0.0.1/5555
     print("1212")
     table = get_table()
-    #print(table)
     #recentscores
     print(table)
     recent_scores1 = table[-4:]
@@ -87,8 +81,8 @@ def index():
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
-@socketio.on('my event')
-def handle_my_custom_event(data, methods=['GET', 'POST']):
+@socketio.on('my event') 
+def handle_my_custom_event(data, methods=['GET', 'POST']): #connect the client (add7) to the views
     print("888",data)
     if "val1" in data :
         global val1
@@ -101,7 +95,7 @@ def handle_my_custom_event(data, methods=['GET', 'POST']):
 
 
 @socketio.on('send score')
-def add_to_table(data, methods=['GET', 'POST']):
+def add_to_table(data, methods=['GET', 'POST']): #adds score from add7 to the DB scores
     print(data)
     name = data["username"]
     wpm = data["wpm"]
@@ -119,7 +113,7 @@ def add_to_table(data, methods=['GET', 'POST']):
 
 
 @app.route('/add7', methods=[ 'GET'])
-def add7():
+def add7(): #open the page add7
     print("add7")
     s = get_sentences()
     print (s)
@@ -138,7 +132,7 @@ def add7():
 
 
 @socketio.on('keypress')
-def handle_keypress_event(data, methods=['GET', 'POST']):
+def handle_keypress_event(data, methods=['GET', 'POST']): #handles the event when they press a key on the page
     print("1243",data)
 
     lst = the_sentence.split()

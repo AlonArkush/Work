@@ -1,6 +1,6 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
     <title>Flask_Chat_App</title>
     
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -13,7 +13,7 @@
     
     var totalSeconds = 0;
 
-    function setTime() {
+    function setTime() { //function to help track time
         ++totalSeconds;
         var minutesLabel = document.getElementById("minutes");
         var secondsLabel = document.getElementById("seconds");
@@ -31,7 +31,7 @@
         }
     }
     
-    function colorback(){
+    function colorback(){ //change the background of the image
         var today = new Date();
         var time = today.getHours();
         if(time > 8 && time < 18){
@@ -73,10 +73,10 @@
         colorback();
     };
       
-      var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
 
       
-        socket.on( 'connect', function() {
+    socket.on( 'connect', function() {
         socket.emit( 'my event', {info: 'User Connected'} )
         $("input").keyup(function(){
             val1 = $( '#yosi' ).val()
@@ -84,56 +84,54 @@
             socket.emit('keypress', { val1 : val1 })     
 
         })
-        })
+    })
         
         
        
-        socket.on( 'keypress_response', function( msg ) {
-            console.log( "11111", msg )  
-            xx = msg["val4"]
-            if(xx == "red"){
-                console.log( "xxx", msg )
-                $("#yosi").css("color", "red");
-            }
-			if(xx == "black"){
-				console.log( "xxx", msg )
-				$("#yosi").css("color", "black");
-            }
-            x = msg["flag"]
-            if(x){
-                $("#yosi").val("");
-            }
-            y = msg["end"]
-            chars = msg["words"]
-            if(y){
-                document.getElementById('yosi').disabled = true;
-                clearInterval(window.countup);
-                minutes = document.getElementById('minutes').innerHTML;
-                seconds = document.getElementById('seconds').innerHTML;
-                console.log(typeof(minutes))
-                time = minutes + seconds/60;
+    socket.on( 'keypress_response', function( msg ) {
+        console.log( "11111", msg )  
+        xx = msg["val4"]
+        if(xx == "red"){
+            console.log( "xxx", msg )
+            $("#yosi").css("color", "red");
+        }
+        if(xx == "black"){
+			console.log( "xxx", msg )
+			$("#yosi").css("color", "black");
+        }
+        x = msg["flag"]
+        if(x){
+            $("#yosi").val("");
+        }
+        y = msg["end"]
+        chars = msg["words"]
+        if(y){
+            document.getElementById('yosi').disabled = true;
+            clearInterval(window.countup);
+            minutes = document.getElementById('minutes').innerHTML;
+            seconds = document.getElementById('seconds').innerHTML;
+            console.log(typeof(minutes))
+            time = minutes + seconds/60;
                 
-                window.wpm = Math.ceil((chars/time)/5);
-                document.getElementById("wpm").innerHTML =  window.wpm;
+            window.wpm = Math.ceil((chars/time)/5);
+            document.getElementById("wpm").innerHTML =  window.wpm;
 
-            }
-        })
+        }
+    })
       
-    </script>
+</script>
 
-  </head>
-  <body>
-   
-  <div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
-  <label style="color:#77d6bf;" id="minutes">00</label ><label style="color:#77d6bf;">:</label><label style="color:#77d6bf;" id="seconds">00</label>
-  <br>
-  <textarea id="alon" rows="4" cols="50" style="font-size:20px">{{ theText }}</textarea>
-  <br>
-  <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}" disabled="disabled" maxlength="40"
-style="font-size:20px">
-  <label style="color:#77d6bf;" id="wpm">00</label>
-  <br>
-  <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
-  <button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button> 
-  </body>
-  </html>
+</head>
+    <body>   
+    <div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
+    <label style="color:#77d6bf;" id="minutes">00</label ><label style="color:#77d6bf;">:</label><label style="color:#77d6bf;" id="seconds">00</label>
+    <br>
+    <textarea id="alon" rows="10" cols="50" style="font-size:20px">{{ theText }}</textarea>
+    <br>
+    <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}" disabled="disabled" maxlength="40" style="font-size:20px">
+    <label style="color:#77d6bf;" id="wpm">00</label>
+    <br>
+    <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
+    <button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button> 
+    </body>
+</html>
