@@ -113,6 +113,7 @@ def handle_keypress_event(data, methods=['GET', 'POST']):
 
     lst = the_sentence.split()
     print (lst)
+    words = len(the_sentence) - the_sentence.count(' ')
     global i
     global end
     if "val1" in data:
@@ -140,5 +141,5 @@ def handle_keypress_event(data, methods=['GET', 'POST']):
         if i == len(lst):
                 print("xd")
                 end = 1
-        data = {"val3":val1,"val4":val4,"flag":flag,"end":end}
+        data = {"val3":val1,"val4":val4,"flag":flag,"end":end,"words":words}
         socketio.emit('keypress_response', data, callback=messageReceived)

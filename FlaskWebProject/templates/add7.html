@@ -8,9 +8,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     
     <script type="text/javascript">
+
+    var totalSeconds = 0;
+
+    function setTime() {
+        ++totalSeconds;
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        secondsLabel.innerHTML = pad(totalSeconds % 60);
+        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+    
+    
+    
     function startTimer(duration, display) {
         var timer = duration, seconds;
-        setInterval(function () {
+        myInterval = setInterval(function () {
             
             seconds = parseInt(timer % 60, 10);
 
@@ -20,17 +43,18 @@
             display.textContent = + seconds;
 
             if (--timer < 0) {
-                timer = duration;
+                clearInterval(myInterval);
+                document.getElementById("yosi").disabled = false;
+                document.getElementById("yosi").focus();
+                window.countup = setInterval(setTime, 1000);
             }
         }, 1000);
     }
-    
     window.onload = function () {
         var fiveSeconds = 5,
         display = document.querySelector('#time');
         startTimer(fiveSeconds, display);
     };
-
       
       var socket = io.connect('http://' + document.domain + ':' + location.port);
 
@@ -58,11 +82,21 @@
             }
             x = msg["flag"]
             if(x){
-                $("#yosi").val("")
+                $("#yosi").val("");
             }
             y = msg["end"]
+            chars = msg["words"]
             if(y){
                 document.getElementById('yosi').disabled = true;
+                clearInterval(window.countup);
+                minutes = document.getElementById('minutes').innerHTML;
+                seconds = document.getElementById('seconds').innerHTML;
+                console.log(typeof(minutes))
+                time = minutes + seconds/60;
+                
+                wpm = (chars/time)/5;
+                document.getElementById("wpm").innerHTML =  Math.ceil(wpm);
+
             }
         })
       
@@ -71,17 +105,15 @@
   </head>
   <body>
    
-<form action="" method="post">
   <div>the game starts in <span id="time">5</span> seconds!</div>
+  <label id="minutes">00</label>:<label id="seconds">00</label>
   <br>
   <textarea id="alon" rows="4" cols="50" style="font-size:20px">{{ theText }}</textarea>
   <br>
-  <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}"  maxlength="40"
+  <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}" disabled="disabled" maxlength="40"
 style="font-size:20px">
-  <input id="wpm" name="wpm" type="text" size="1" value="{{ wpm }}"   maxlength="40" 
-style="font-size:20px">
+  <label id="wpm">00</label>
   <br>
-</form>
    
   </body>
   </html>
