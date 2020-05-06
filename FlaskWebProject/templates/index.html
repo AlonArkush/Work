@@ -14,6 +14,23 @@
 </h1>
 <img src="./images/race.jpg" alt="picture s missing">
 
+<script>
+    console.log("yikes")
+    var boom = "{{recentscores}}";
+    console.log(boom);
+    var table = '';
+    rows = 3;
+    cols = 5;
+    for (var i = 0; i < rows;i++){
+        table += '<tr>';
+        console.log()
+        for(var j = 0; j < cols; j++){
+            table += '<td>' + {{ recentscores[j] }} + '</td>';
+        }
+        table += '</tr>';
+    }
+    document.write('<table>' + table + '</table>')
+</script>
 
 </body>
 

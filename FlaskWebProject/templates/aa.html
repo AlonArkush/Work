@@ -1,0 +1,20 @@
+<script>
+    console.log("yikes")
+    //var boom = "[(&#39;27&#39;, &#39;4&#39;, &#39;2020&#39;, &#39;43&#39;, &#39;Alon&#39;), (&#39;28&#39;, &#39;4&#39;, &#39;2020&#39;, &#39;67&#39;, &#39;Alon&#39;), (&#39;28&#39;, &#39;4&#39;, &#39;2020&#39;, &#39;56&#39;, &#39;Alon&#39;)]";
+    var boom = "27, &#39;4&#39;, &#39;2020&#39;, &#39;43&#39;, &#39;Alon&#39;)";
+    console.log(boom);
+    var table = '';
+    rows = 3;
+    cols = 5;
+    for (var i = 0; i < rows;i++){
+        table += '<tr>';
+        console.log()
+        for(var j = 0; j < cols; j++){
+            table += '<td>' + boom + '</td>';
+        }
+        table += '</tr>';
+    }
+    msg = '<table>' + table + '</table>'
+    console.log(msg)
+    document.write(msg)
+</script>

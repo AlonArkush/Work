@@ -30,7 +30,13 @@ def get_sentences():
     conn.close()
     return row 
     
-
+def get_table():
+    conn = sqlite3.connect('example.db')
+    print ("Opened Database successfully")
+    cursor = conn.execute('SELECT * from scores')
+    allscores = cursor.fetchall()
+    conn.close()
+    return allscores
 
 def create_table():
     c.execute('CREATE TABLE IF NOT EXISTS sentences(number, sentence)')
@@ -53,12 +59,27 @@ def data_entry():
 #create_table()
 #data_entry()
 
+
+def takelast(elem):
+    return elem[-1]
+
 @app.route('/')
 def index():
     print("1212")
+    table = get_table()
+    print(table)
+    #recentscores
+    recent_scores1 = table[-10:]
+    #topscores
+    top_scores1 = sorted(table, key=takelast)
+    top_scores2 = top_scores1[:10]
+
+    
     return render_template(
         'index.html',
         title='Home Page',
+        topscores = top_scores2,
+        recentscores = recent_scores1,
         year=datetime.now().year,
     )
 
@@ -112,6 +133,7 @@ def add7():
         theText = the_sentence,
         year=datetime.now().year,    
     )
+
 
 
 @socketio.on('keypress')
