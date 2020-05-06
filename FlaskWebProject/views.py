@@ -7,10 +7,15 @@ from flask import render_template,request, Response, jsonify
 from FlaskWebProject import app, socketio
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
+import time 
 import random
 import sqlite3
 
-
+def count_down(number):
+    if number is 0:
+        return True
+    time.sleep(1)
+    return count_down(number-1)
 
 def get_sentences():
     cursor = conn.execute('SELECT * from sentences')
@@ -89,7 +94,6 @@ def add7():
         theText = the_sentence,
         year=datetime.now().year,
         #start_timer()
-        i = 0
     )
 
 i = 0

@@ -22,8 +22,6 @@
 
         })
         })
-        
-        
        
         socket.on( 'keypress_response', function( msg ) {
             console.log( "11111", msg )  
@@ -40,23 +38,20 @@
             if(x){
                 $("#yosi").val("")
             }
-            //$( '#sofi' ).val(msg["val3"])
-            //if($( '#sofi' ).val() == "Hello"){
-            //  $( '#sofi' ).val("End")
         })
       
     </script>
 
   </head>
   <body>
-
-
    
-<form action="" method="post"> 
+<form action="" method="post">
+  <input id="countdown" name="countdown" type="text" size="1" value="{{ num }}"   maxlength="40" 
+style="font-size:30px">
   <input id="alon" name="alon" type="text" size="60" value="{{ theText }}"  maxlength="40" 
 style="font-size:30px">
   <br>
-  <input id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}"  maxlength="40" 
+  <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}"  maxlength="40" 
 style="font-size:30px">
   <br>
 </form>
