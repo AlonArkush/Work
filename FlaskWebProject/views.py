@@ -22,7 +22,14 @@ print ("Opened Database succesfully")
 s = get_sentences()
 print (s)
 the_sentence = s[1]
-
+#def start_timer():
+#    return datetime.datetime.now().time()
+    
+#def end_timer(start_time):
+#    return datetime.datetime.now().time()-
+    
+#def calculate_wpm(finish_time):
+#    return the_sentence/finish_time
 
 def create_table():
     c.execute('CREATE TABLE IF NOT EXISTS sentences(number, sentence)')
@@ -161,7 +168,6 @@ def handle_my_custom_event(data, methods=['GET', 'POST']):
 
      
 
-
             
 @app.route('/add7', methods=[ 'GET'])
 def add7():
@@ -171,22 +177,34 @@ def add7():
         title='Home Page',
         theText = the_sentence,
         year=datetime.now().year,
+        #start_timer()
+        i = 0
     )
 
-
+i = 0
+flag = 0
 @socketio.on('keypress')
 def handle_keypress_event(data, methods=['GET', 'POST']):
     print("1243",data)
-    if "val1" in data :
-        val1 = data["val1"] #get the word
-        l = len(val1) #get the length of the word
-        theText = the_sentence #the word
-        w = theText[:l] #shortened word
+    if "val1" in data:
+        global flag
+        flag = 0
         val4 = ""
+        list = the_sentence.split()
+        list_with_spaces = [item + ' ' for item in list]
+        global i
+        word = list_with_spaces[i]
+        val1 = data["val1"] #get the word
+        length = len(val1) #get the length of the word
+        w = word[:length] #shortened word
         if val1 != w:
             val4="red"
         if val1 == w:
             val4="black"
-        data = {"val3":val1,"val4":val4}
+        if val1 == word:
+            print ("entered")
+            i += 1
+            flag = 1
+        data = {"val3":val1,"val4":val4,"flag":flag}
         socketio.emit('keypress_response', data, callback=messageReceived)        
         

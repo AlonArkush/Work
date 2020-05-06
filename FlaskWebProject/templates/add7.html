@@ -36,6 +36,10 @@
 				console.log( "xxx", msg )
 				$("#yosi").css("color", "black");
             }
+            x = msg["flag"]
+            if(x){
+                $("#yosi").val("")
+            }
             //$( '#sofi' ).val(msg["val3"])
             //if($( '#sofi' ).val() == "Hello"){
             //  $( '#sofi' ).val("End")
@@ -49,10 +53,10 @@
 
    
 <form action="" method="post"> 
-  <input id="alon" name="alon" type="text" size="20" value="{{ theText }}"  maxlength="40" 
+  <input id="alon" name="alon" type="text" size="60" value="{{ theText }}"  maxlength="40" 
 style="font-size:30px">
   <br>
-  <input id="yosi" name="yosi" type="text" size="20" value="{{ nmb1 }}"  maxlength="40" 
+  <input id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}"  maxlength="40" 
 style="font-size:30px">
   <br>
   <!--
