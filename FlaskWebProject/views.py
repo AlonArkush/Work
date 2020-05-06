@@ -27,17 +27,10 @@ def get_sentences():
     cursor = conn.execute('SELECT * from sentences')
     rows = cursor.fetchall()
     row = random.choice(rows)
-    return row
+    conn.close()
+    return row 
+    
 
-
-#def start_timer():
-#    return datetime.datetime.now().time()
-
-#def end_timer(start_time):
-#    return datetime.datetime.now().time()-
-
-#def calculate_wpm(finish_time):
-#    return the_sentence/finish_time
 
 def create_table():
     c.execute('CREATE TABLE IF NOT EXISTS sentences(number, sentence)')
@@ -85,6 +78,20 @@ def handle_my_custom_event(data, methods=['GET', 'POST']):
         socketio.emit('my response', data, callback=messageReceived)
 
 
+@socketio.on('send score')
+def add_to_table(data, methods=['GET', 'POST']):
+    print(data)
+    name = data["username"]
+    wpm = data["wpm"]
+    conn = sqlite3.connect('example.db')
+    print ("Opened Database succesfully")
+    day = datetime.now().day
+    month = datetime.now().month
+    year = datetime.now().year
+    c = conn.cursor()
+    c.execute('INSERT INTO scores (day, month, year, wpm, name) VALUES (?, ?, ?, ?, ?)', (day, month, year, wpm, name))
+    conn.commit()
+    c.close()
 
 
 

@@ -29,7 +29,10 @@
         }
     }
     
+    function sendData(){
+        socket.emit('send score' ,{'wpm': window.wpm, 'username': $( '#username' ).val()})
     
+    }
     
     function startTimer(duration, display) {
         var timer = duration, seconds;
@@ -68,6 +71,8 @@
 
         })
         })
+        
+        
        
         socket.on( 'keypress_response', function( msg ) {
             console.log( "11111", msg )  
@@ -94,8 +99,8 @@
                 console.log(typeof(minutes))
                 time = minutes + seconds/60;
                 
-                wpm = (chars/time)/5;
-                document.getElementById("wpm").innerHTML =  Math.ceil(wpm);
+                window.wpm = Math.ceil((chars/time)/5);
+                document.getElementById("wpm").innerHTML =  window.wpm;
 
             }
         })
@@ -114,6 +119,7 @@
 style="font-size:20px">
   <label id="wpm">00</label>
   <br>
-   
+  <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
+  <button onclick="sendData()" type="button">Send Score</button> 
   </body>
   </html>
