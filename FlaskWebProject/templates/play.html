@@ -1,12 +1,12 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <title>Flask_Chat_App</title>
-    
-     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-    
+
     <script type="text/javascript">
     
     
@@ -60,8 +60,8 @@
 
             if (--timer < 0) {
                 clearInterval(myInterval);
-                document.getElementById("yosi").disabled = false;
-                document.getElementById("yosi").focus();
+                document.getElementById("inp").disabled = false;
+                document.getElementById("inp").focus();
                 window.countup = setInterval(setTime, 1000);
             }
         }, 1000);
@@ -79,7 +79,7 @@
     socket.on( 'connect', function() {
         socket.emit( 'my event', {info: 'User Connected'} )
         $("input").keyup(function(){
-            val1 = $( '#yosi' ).val()
+            val1 = $( '#inp' ).val()
             console.log('222', val1)
             socket.emit('keypress', { val1 : val1 })     
 
@@ -93,20 +93,20 @@
         xx = msg["val4"]
         if(xx == "red"){
             console.log( "xxx", msg )
-            $("#yosi").css("color", "red");
+            $("#inp").css("color", "red");
         }
         if(xx == "black"){
 			console.log( "xxx", msg )
-			$("#yosi").css("color", "black");
+			$("#inp").css("color", "black");
         }
         x = msg["flag"]
         if(x){
-            $("#yosi").val("");
+            $("#inp").val("");
         }
         y = msg["end"]
         chars = msg["words"]
         if(y){
-            document.getElementById('yosi').disabled = true;
+            document.getElementById('inp').disabled = true;
             clearInterval(window.countup);
             minutes = document.getElementById('minutes').innerHTML;
             seconds = document.getElementById('seconds').innerHTML;
@@ -119,19 +119,22 @@
         }
     })
       
-</script>
+
+    </script>
 
 </head>
-    <body>   
-    <div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
-    <label style="color:#77d6bf;" id="minutes">00</label ><label style="color:#77d6bf;">:</label><label style="color:#77d6bf;" id="seconds">00</label>
-    <br>
-    <textarea id="alon" rows="10" cols="50" style="font-size:20px">{{ theText }}</textarea>
-    <br>
-    <input placeholder="Type Here!" id="yosi" name="yosi" type="text" size="10" value="{{ nmb1 }}" disabled="disabled" maxlength="40" style="font-size:20px">
-    <label style="color:#77d6bf;" id="wpm">00</label>
-    <br>
-    <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
-    <button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button> 
-    </body>
+<body>
+<div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
+<label style="color:#77d6bf;" id="minutes">00</label><label style="color:#77d6bf;">:</label><label
+        style="color:#77d6bf;" id="seconds">00</label>
+<br>
+<textarea id="alon" rows="10" cols="50" style="font-size:20px">{{ theText }}</textarea>
+<br>
+<input placeholder="Type Here!" id="inp" name="inp" type="text" size="10" value="{{ nmb1 }}" disabled="disabled"
+       maxlength="40" style="font-size:20px">
+<label style="color:#77d6bf;" id="wpm">00</label>
+<br>
+<input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
+<button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button>
+</body>
 </html>

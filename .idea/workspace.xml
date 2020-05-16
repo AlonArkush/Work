@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de84efd4-1155-4d13-9e5d-090f626e31b8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskWebProject/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebProject/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskWebProject/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebProject/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskWebProject/templates/play.html" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebProject/templates/play.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskWebProject/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebProject/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.db" beforeDir="false" afterPath="$PROJECT_DIR$/example.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
