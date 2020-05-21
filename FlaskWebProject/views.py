@@ -11,11 +11,8 @@ import time
 import random
 import sqlite3
 
-the_sentence = ""
 val1 = ""
-i = 0
 flag = 0
-end = 0
 
 
 def get_sentences():  # function to get the sentences from the DB
@@ -131,11 +128,7 @@ def play():  # open the page play
     print("play")
     s = get_sentences()
     print(s)
-    global the_sentence
     the_sentence = s[1]
-    global i, end
-    i = 0
-    end = 0
     return render_template(
         'play.html',
         title='Home Page',
@@ -144,40 +137,40 @@ def play():  # open the page play
     )
 
 
-@socketio.on('keypress')
-def handle_keypress_event(data, methods=['GET', 'POST']):  # handles the event when they press a key on the page
-    print("1243", data)
+# @socketio.on('keypress')
+# def handle_keypress_event(data, methods=['GET', 'POST']):  # handles the event when they press a key on the page
+#     print("1243", data)
 
-    lst = the_sentence.split()
-    print(lst)
-    words = len(the_sentence) - the_sentence.count(' ')
-    global i
-    global end
-    if "val1" in data:
-        global flag
-        global val1
-        flag = 0
-        val4 = ""
-        list_with_spaces = [item + ' ' for item in lst if lst.index(item) != len(lst) - 1]
-        list_with_spaces.append(lst[-1])
-        print(i, len(lst), lst, the_sentence)
-        if i < len(lst):
-            word = list_with_spaces[i]
-            val1 = data["val1"]
-            length = len(val1)
-            w = word[:length]
+#     lst = the_sentence.split()
+#     print(lst)
+#     words = len(the_sentence) - the_sentence.count(' ')
+#     global i
+#     global end
+#     if "val1" in data:
+#         global flag
+#         global val1
+#         flag = 0
+#         val4 = ""
+#         list_with_spaces = [item + ' ' for item in lst if lst.index(item) != len(lst) - 1]
+#         list_with_spaces.append(lst[-1])
+#         print(i, len(lst), lst, the_sentence)
+#         if i < len(lst):
+#             word = list_with_spaces[i]
+#             val1 = data["val1"]
+#             length = len(val1)
+#             w = word[:length]
 
-            print(i, len(lst))
-            if val1 != w:  # if there is a mistake
-                val4 = "red"
-            if val1 == w:  # if there isn't a mistake
-                val4 = "black"
-            if val1 == word:  # when the word is finished
-                print("entered")
-                i += 1
-                flag = 1
-        if i == len(lst):  # when the sentence ends
-            print("xd")
-            end = 1
-        data = {"val3": val1, "val4": val4, "flag": flag, "end": end, "words": words}
-        socketio.emit('keypress_response', data, callback=messageReceived)
+#             print(i, len(lst))
+#             if val1 != w:  # if there is a mistake
+#                 val4 = "red"
+#             if val1 == w:  # if there isn't a mistake
+#                 val4 = "black"
+#             if val1 == word:  # when the word is finished
+#                 print("entered")
+#                 i += 1
+#                 flag = 1
+#         if i == len(lst):  # when the sentence ends
+#             print("xd")
+#             end = 1
+#         data = {"val3": val1, "val4": val4, "flag": flag, "end": end, "words": words}
+#         socketio.emit('keypress_response', data, callback=messageReceived)

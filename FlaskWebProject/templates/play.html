@@ -71,24 +71,59 @@
         display = document.querySelector('#time');
         startTimer(fiveSeconds, display);
         colorback();
+        window.i = 0;
     };
       
     var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-      
     socket.on( 'connect', function() {
         socket.emit( 'my event', {info: 'User Connected'} )
         $("input").keyup(function(){
             val1 = $( '#inp' ).val()
             console.log('222', val1)
-            socket.emit('keypress', { val1 : val1 })     
+            //--------------------------------------------------
+            lst = '{{ theText }}'.split(" ");
+            console.log(lst);
+            words = '{{ theText }}'.length - (lst.length - 1);
+            flag = 0;
+            val4 = "";
+            end = 0;
+            list_with_spaces = [];
+            console.log("the sentence: " + '{{ theText }}');
+            for(var i = 0; i < lst.length-1; i++){
+                list_with_spaces.push(lst[i] + " ");
+            }
+            list_with_spaces.push(lst[lst.length-1]);
+            console.log(window.i, lst.length, lst, '{{ theText }}');
+            if (window.i < lst.length){
+                word = list_with_spaces[window.i];
+                length = val1.length;
+                w = word.substring(0, length);
 
+                console.log("val1: " + val1 + " w: " + w);
+                console.log(window.i, lst.length)
+                if (val1 != w){  // if there is a mistake
+                    val4 = "red"
+                }
+                if (val1 == w){  //if there isn't a mistake
+                    val4 = "black"
+                }
+                if (val1 == word){  // when the word is finished
+                    console.log("entered")
+                    window.i += 1
+                    flag = 1
+                }
+            }
+            if (window.i == lst.length){  //when the sentence ends
+                console.log("xd")
+                end = 1
+            }
+            data = {"val3": val1, "val4": val4, "flag": flag, "end": end, "words": words}
+            keypressResponse(data);
         })
-    })
-        
+    })    
         
        
-    socket.on( 'keypress_response', function( msg ) {
+    function keypressResponse( msg ) {
         console.log( "11111", msg )  
         xx = msg["val4"]
         if(xx == "red"){
@@ -115,9 +150,8 @@
                 
             window.wpm = Math.ceil((chars/time)/5);
             document.getElementById("wpm").innerHTML =  window.wpm;
-
         }
-    })
+    }
       
 
     </script>
