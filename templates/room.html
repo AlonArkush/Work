@@ -7,73 +7,29 @@
 
     <script type="text/javascript">
     
-    
-    
-    var totalSeconds = 0;
+    socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.emit('join', {'room': '{{ roomnum }}'})
 
-    function setTime() { //function to help track time
-        ++totalSeconds;
-        var minutesLabel = document.getElementById("minutes");
-        var secondsLabel = document.getElementById("seconds");
-        secondsLabel.innerHTML = pad(totalSeconds % 60);
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    function start(){
+        console.log('start')
+        room = '{{ roomnum }}';
+        console.log(room)
+        socket.emit('start', {'room': room})
     }
 
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        }
-        else {
-            return valString;
-        }
-    }
-    
-    function colorback(){ //change the background of the image
-        var today = new Date();
-        var time = today.getHours();
-        if(time > 8 && time < 18){
-            document.body.style.background = "#828cfa";
-        }
-        else{
-            document.body.style.background = "#1c0938";
-        }
-    }
-    
-    function sendData(){
-        socket.emit('send score' ,{'wpm': window.wpm, 'username': $( '#username' ).val()})
-    
-    }
-    
-    function startTimer(duration, display) {
-        var timer = duration, seconds;
-        myInterval = setInterval(function () {
-            
-            seconds = parseInt(timer % 60, 10);
+    socket.on('response', function(data) {
+        console.log(data);
+    });
 
-            
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = + seconds;
-
-            if (--timer < 0) {
-                clearInterval(myInterval);
-                document.getElementById("inp").disabled = false;
-                document.getElementById("inp").focus();
-                window.countup = setInterval(setTime, 1000);
-            }
-        }, 1000);
-    }
-    window.onload = function () {
-
-        joinRoom();
-        colorback();
-        
-    };
-      
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on( 'connect', function() {
-        socket.emit( 'my event', {info: 'User Connected'} )
+    socket.on('start game', function(data){
+        console.log('start game', data);
+        window.theText = data.theText;
+        document.getElementById("alon").value = theText;
+        var fiveSeconds = 5;
+        display = document.querySelector('#time');
+        startTimer(fiveSeconds, display);
+        window.i = 0;
+        socket.emit('my event', {info: 'User Connected'});
         $("input").keyup(function(){
             val1 = $( '#inp' ).val()
             console.log('222', val1)
@@ -116,8 +72,66 @@
             }
             data = {"val3": val1, "val4": val4, "flag": flag, "end": end, "words": words}
             keypressResponse(data);
-        })
-    })    
+        });
+        });
+    
+    var totalSeconds = 0;
+
+    function setTime() { //function to help track time
+        ++totalSeconds;
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        secondsLabel.innerHTML = pad(totalSeconds % 60);
+        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+    
+    function colorback(){ //change the background of the image
+        var today = new Date();
+        var time = today.getHours();
+        if(time > 8 && time < 18){
+            document.body.style.background = "#828cfa";
+        }
+        else{
+            document.body.style.background = "#1c0938";
+        }
+    }
+    
+    function sendData(){
+        socket.emit('send score' ,{'wpm': window.wpm, 'username': $( '#username' ).val()})
+    }
+    
+    function startTimer(duration, display) {
+        var timer = duration, seconds;
+        myInterval = setInterval(function () {
+            
+            seconds = parseInt(timer % 60, 10);
+
+            
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = + seconds;
+
+            if (--timer < 0) {
+                clearInterval(myInterval);
+                document.getElementById("inp").disabled = false;
+                document.getElementById("inp").focus();
+                window.countup = setInterval(setTime, 1000);
+            }
+        }, 1000);
+    }
+    window.onload = function () {
+        colorback();
+    };
         
        
     function keypressResponse( msg ) {
@@ -149,32 +163,6 @@
             document.getElementById("wpm").innerHTML =  window.wpm;
         }
     }
-
-    function joinRoom() {
-        var socket = io.connect('http://' + document.domain + ':' + location.port + '/enter-room');
-        socket.emit('join', {'room': '{{ roomnum }}'})
-    } 
-
-    function start(){
-        console.log('start')
-        room = '{{ roomnum }}';
-        console.log(room)
-        socket.emit('start', {'room': room})
-    }
-
-    socket.on('response', function(data) {
-        console.log(data);
-   });
-
-    socket.on('start game', function(data){
-            console.log('start game', data);
-            window.theText = data.theText;
-            document.getElementById("alon").value = theText;
-            var fiveSeconds = 5;
-            display = document.querySelector('#time');
-            startTimer(fiveSeconds, display);
-            window.i = 0;
-        });
 
     </script>
 
