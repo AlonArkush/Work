@@ -182,7 +182,17 @@ def on_leave(data):
     room = data['room']
     print('on leave', room)
     leave_room(room)
-    emit('someone has left the room.', room=room)
+    emit('response', 'someone has left the room.', room=room)
+
+
+@socketio.on('share')
+def on_share(data):
+    print(data)
+    room = data['room']
+    wpm = data['wpm']
+    username = data['username']
+    print('on share', room)
+    emit('update table', {'wpm': wpm, 'username': username}, room=room)
 
 
 @socketio.on('start')
