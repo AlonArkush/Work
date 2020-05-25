@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>TypeRacer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 </head>
 
 <style>
@@ -88,7 +90,10 @@
         tableBody.innerHTML = dataHtml;
     }
 
-
+    function enterRoom() {
+        roomnum = document.getElementById("roomnum").value;
+        window.location.replace(`http://${document.domain}:${location.port}/enter-room?roomnum=${roomnum}`);
+    }
 
 </script>
 
@@ -98,6 +103,11 @@
 <h1>
     <a href="{{ url_for('play') }}" style="color:#77d6bf;">Play Now!</a><br>
 </h1>
+
+    <label>Join room:</label>
+    <input type="text" id="roomnum" name="roomnum">
+    <br><br>
+    <input type="button" value="Submit" onclick="enterRoom()"> 
 
 <h2 style="color:#77d6bf;">Recent Scores</h2>
 <table>

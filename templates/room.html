@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+
+    <script type="text/javascript">
+    
+    
+    
+    var totalSeconds = 0;
+
+    function setTime() { //function to help track time
+        ++totalSeconds;
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        secondsLabel.innerHTML = pad(totalSeconds % 60);
+        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+    
+    function colorback(){ //change the background of the image
+        var today = new Date();
+        var time = today.getHours();
+        if(time > 8 && time < 18){
+            document.body.style.background = "#828cfa";
+        }
+        else{
+            document.body.style.background = "#1c0938";
+        }
+    }
+    
+    function sendData(){
+        socket.emit('send score' ,{'wpm': window.wpm, 'username': $( '#username' ).val()})
+    
+    }
+    
+    function startTimer(duration, display) {
+        var timer = duration, seconds;
+        myInterval = setInterval(function () {
+            
+            seconds = parseInt(timer % 60, 10);
+
+            
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = + seconds;
+
+            if (--timer < 0) {
+                clearInterval(myInterval);
+                document.getElementById("inp").disabled = false;
+                document.getElementById("inp").focus();
+                window.countup = setInterval(setTime, 1000);
+            }
+        }, 1000);
+    }
+    window.onload = function () {
+
+        joinRoom();
+        colorback();
+        
+    };
+      
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on( 'connect', function() {
+        socket.emit( 'my event', {info: 'User Connected'} )
+        $("input").keyup(function(){
+            val1 = $( '#inp' ).val()
+            console.log('222', val1)
+            //--------------------------------------------------
+            lst = window.theText.split(" ");
+            console.log(lst);
+            words = window.theText.length - (lst.length - 1);
+            flag = 0;
+            val4 = "";
+            end = 0;
+            list_with_spaces = [];
+            console.log("the sentence: " + window.theText);
+            for(var i = 0; i < lst.length-1; i++){
+                list_with_spaces.push(lst[i] + " ");
+            }
+            list_with_spaces.push(lst[lst.length-1]);
+            console.log(window.i, lst.length, lst, window.theText);
+            if (window.i < lst.length){
+                word = list_with_spaces[window.i];
+                length = val1.length;
+                w = word.substring(0, length);
+
+                console.log("val1: " + val1 + " w: " + w);
+                console.log(window.i, lst.length)
+                if (val1 != w){  // if there is a mistake
+                    val4 = "red"
+                }
+                if (val1 == w){  //if there isn't a mistake
+                    val4 = "black"
+                }
+                if (val1 == word){  // when the word is finished
+                    console.log("entered")
+                    window.i += 1
+                    flag = 1
+                }
+            }
+            if (window.i == lst.length){  //when the sentence ends
+                console.log("xd")
+                end = 1
+            }
+            data = {"val3": val1, "val4": val4, "flag": flag, "end": end, "words": words}
+            keypressResponse(data);
+        })
+    })    
+        
+       
+    function keypressResponse( msg ) {
+        console.log( "11111", msg )  
+        xx = msg["val4"]
+        if(xx == "red"){
+            console.log( "xxx", msg )
+            $("#inp").css("color", "red");
+        }
+        if(xx == "black"){
+			console.log( "xxx", msg )
+			$("#inp").css("color", "black");
+        }
+        x = msg["flag"]
+        if(x){
+            $("#inp").val("");
+        }
+        y = msg["end"]
+        chars = msg["words"]
+        if(y){
+            document.getElementById('inp').disabled = true;
+            clearInterval(window.countup);
+            minutes = document.getElementById('minutes').innerHTML;
+            seconds = document.getElementById('seconds').innerHTML;
+            console.log(typeof(minutes))
+            time = minutes + seconds/60;
+                
+            window.wpm = Math.ceil((chars/time)/5);
+            document.getElementById("wpm").innerHTML =  window.wpm;
+        }
+    }
+
+    function joinRoom() {
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/enter-room');
+        socket.emit('join', {'room': '{{ roomnum }}'})
+    } 
+
+    function start(){
+        console.log('start')
+        room = '{{ roomnum }}';
+        console.log(room)
+        socket.emit('start', {'room': room})
+    }
+
+    socket.on('response', function(data) {
+        console.log(data);
+   });
+
+    socket.on('start game', function(data){
+            console.log('start game', data);
+            window.theText = data.theText;
+            document.getElementById("alon").value = theText;
+            var fiveSeconds = 5;
+            display = document.querySelector('#time');
+            startTimer(fiveSeconds, display);
+            window.i = 0;
+        });
+
+    </script>
+
+</head>
+<body>
+<div style="color:#77d6bf;">the game starts in <span id="time">5</span> seconds!</div>
+<label style="color:#77d6bf;" id="minutes">00</label><label style="color:#77d6bf;">:</label><label
+        style="color:#77d6bf;" id="seconds">00</label>
+<br>
+<textarea id="alon" rows="10" cols="50" style="font-size:20px"></textarea>
+<br>
+<input placeholder="Type Here!" id="inp" name="inp" type="text" size="10" value="{{ nmb1 }}" disabled="disabled"
+       maxlength="40" style="font-size:20px">
+<label style="color:#77d6bf;" id="wpm">00</label>
+<br>
+<input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
+<button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button>
+<button style="color:#77d6bf;" onclick="start()" type="button">Start</button>\
+</body>
+</html>
+

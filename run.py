@@ -14,7 +14,7 @@ This script runs the FlaskWebProject application using a development server.
 #         PORT = 5555
 #     socketio.run(app, host='0.0.0.0', port=5555, debug=True)
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_socketio import SocketIO
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ Routes and views for the flask application.
 from datetime import datetime
 from flask import render_template, request, Response, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
-    close_room, rooms, disconnect
+    close_room, rooms, disconnect, send
 import time
 import random
 import sqlite3
@@ -159,6 +159,39 @@ def play():  # open the page play
     )
 
 
+@app.route('/enter-room', methods=['GET'])
+def enter_room():
+    roomnum = request.args['roomnum']
+    return render_template(
+        'room.html',
+        title='Room' + roomnum,
+        roomnum=roomnum
+    )
+
+
+@socketio.on('join')
+def on_join(data):
+    room = data['room']
+    print('on join', room)
+    join_room(room)
+    emit('response', f'Welcome to room: {room}', room=room)
+
+
+@socketio.on('leave')
+def on_leave(data):
+    room = data['room']
+    leave_room(room)
+    send('someone has left the room.', room=room)
+
+
+@socketio.on('start')
+def on_start(data):
+    print('on start')
+    s = get_sentences()
+    print(s)
+    the_sentence = s[1]
+    emit('start game', {'theText': the_sentence, 'year': datetime.now().year}, room=data['room'])
+
+
 if __name__ == '__main__':
     socketio.run(app)
-
