@@ -17,6 +17,13 @@
         socket.emit('start', {'room': room})
     }
 
+    function leave(){
+        console.log('leave')
+        room = '{{ roomnum }}';
+        socket.emit('leave', {'room': room})
+        window.location.replace(`http://${document.domain}:${location.port}`);
+    }
+
     socket.on('response', function(data) {
         console.log(data);
     });
@@ -180,7 +187,8 @@
 <br>
 <input id="username" placeholder="Username" id="username" type="text" size="30" style="font-size:20px">
 <button style="color:#77d6bf;" onclick="sendData()" type="button">Send Score</button>
-<button style="color:#77d6bf;" onclick="start()" type="button">Start</button>\
+<button style="color:#77d6bf;" onclick="start()" type="button">Start</button>
+<button style="color:#77d6bf;" onclick="leave()" type="button">Leave</button>
 </body>
 </html>
 

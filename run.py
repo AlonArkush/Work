@@ -180,8 +180,9 @@ def on_join(data):
 @socketio.on('leave')
 def on_leave(data):
     room = data['room']
+    print('on leave', room)
     leave_room(room)
-    send('someone has left the room.', room=room)
+    emit('someone has left the room.', room=room)
 
 
 @socketio.on('start')
