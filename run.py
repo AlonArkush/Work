@@ -145,6 +145,20 @@ def add_to_table(data, methods=['GET', 'POST']):  # adds score from play to the 
     c.close()
 
 
+@socketio.on('send sentence')
+def add_to_table(data, methods=['GET', 'POST']):  # adds score from play to the DB scores
+    print(data)
+    sentence = data['sentence']
+    conn = sqlite3.connect('example.db')
+    print("Opened Database succesfully")
+    c = conn.cursor()
+    cursor = c.execute('select * from sentences;')
+    number = len(cursor.fetchall())+1
+    c.execute('INSERT INTO sentences (number, sentence) VALUES (?, ?)', (number, sentence))
+    conn.commit()
+    c.close()
+
+
 @app.route('/play', methods=['GET'])
 def play():  # open the page play
     print("play")

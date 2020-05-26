@@ -31,7 +31,7 @@
 
 <script>
 
-
+    socket = io.connect('http://' + document.domain + ':' + location.port);
     let sortDirection = false;
     let tableData =
     [
@@ -95,6 +95,10 @@
         window.location.replace(`http://${document.domain}:${location.port}/enter-room?roomnum=${roomnum}`);
     }
 
+    function send(){
+        socket.emit('send sentence' ,{'sentence': document.getElementById('texts').value})
+    }
+
 </script>
 
 <body>
@@ -107,7 +111,7 @@
     <label style="color:#77d6bf;">Join room:</label>
     <input type="text" id="roomnum" name="roomnum">
     <br><br>
-    <input type="button" value="Submit" onclick="enterRoom()"> 
+    <input type="button" value="Submit" onclick="enterRoom()">
 
 <h2 style="color:#77d6bf;">Recent Scores</h2>
 <table>
@@ -135,7 +139,8 @@
     </thead>
     <tbody id="tableData2"></tbody>
 </table>
-
+<input id="texts" placeholder="Texts" id="texts" type="text" size="30" style="font-size:20px">
+<button style="color:#77d6bf;" onclick="send()" type="button">Send</button>
 
 </body>
 
