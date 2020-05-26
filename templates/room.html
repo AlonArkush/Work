@@ -9,6 +9,7 @@
     
     socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.emit('join', {'room': '{{ roomnum }}'})
+    var totalSeconds = 0;
 
     function start(){
         console.log('start')
@@ -57,7 +58,10 @@
         console.log('start game', data);
         window.theText = data.theText;
         document.getElementById("alon").value = theText;
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
         var fiveSeconds = 5;
+        totalSeconds = 0;
         display = document.querySelector('#time');
         startTimer(fiveSeconds, display);
         window.i = 0;
@@ -107,7 +111,6 @@
         });
         });
     
-    var totalSeconds = 0;
 
     function setTime() { //function to help track time
         ++totalSeconds;
@@ -197,6 +200,25 @@
     }
 
     </script>
+
+<style>
+    table{
+        font-family: arial, sans-serif;
+        bodercolapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #cccccc;
+        color: #77d6bf;
+        padding: 8px;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+</style>
 
 </head>
 <body>
