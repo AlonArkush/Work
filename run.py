@@ -92,7 +92,7 @@ def takelast(elem):  # function the take the last of an element, in my case a li
 
 
 @app.route('/')
-def index():  # function that supposedly opens the first page 127.0.0.1/5555
+def index():  # function that supposedly opens the first page 127.0.0.1/5000
     print("1212")
     table = get_table()
     # recentscores
