@@ -146,7 +146,7 @@ def add_to_table(data, methods=['GET', 'POST']):  # adds score from play to the 
 
 
 @socketio.on('send sentence')
-def add_to_table(data, methods=['GET', 'POST']):  # adds score from play to the DB scores
+def add_to_table1(data, methods=['GET', 'POST']):  # adds score from play to the DB scores
     print(data)
     sentence = data['sentence']
     conn = sqlite3.connect('example.db')
